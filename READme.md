@@ -12,7 +12,6 @@ The Book Management System helps users manage books by storing book details like
 - Plan database structure
 ## 3. Implementation Phase
 - Create HTML form
-- Add JavaScript functionality
 ## 4. Testing Phase
 - Test form validation
 - Check input fields
@@ -35,8 +34,4 @@ Database:
 - Stores book information
 # 3-Tier Architecture
 ## Presentation Layer
-HTML,JavaScript
-## Business Logic Layer
-Server-side logic
-## Data Layer
-Database storage
+HTML
