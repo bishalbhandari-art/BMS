@@ -3,7 +3,7 @@
 The Book Management System (BMS) is a web-based application that helps users manage and organize their book collection. Users can store comprehensive book details including title, author, ISBN, publication date, and genre. The system enables users to easily search, filter, and find their favorite books from their personal library. 
 # SDLC Phases
 ## 1. Requirement Phase
-- Creating HTML form where user can find their personal choice book.
+- Created HTML form where user can find their personal choice book.
 - User can write, a book title, author name.
 - ISBN And Publication Date should be required to fill.
 - user can choose the genre or which kind of book he/she likes.
@@ -34,10 +34,14 @@ Server:
 - Stores data
 Database:
 - Stores book information
-# 3-Tier Architecture
+
+# Diagram Of 3-Tier Architecture
+            ||
 ## Presentation Layer
 HTML, CSS
+            ||
 ## Business Logic Layer
 Server-side backend logic
+            ||
 ## Data Layer
 Database storage
