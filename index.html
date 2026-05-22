@@ -1,32 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Book management system</title>
-</head>
-<body>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
     <div>
-        <h1>Book management system</h1>
-        <form id="Bookform">
-            <label>Book Title:</label>
-            <input type="text" placeholder="Enter book title">
-            <br>
-            <label>Author:</label>
-            <input type="text" placeholder="Enter author name">
-            <br>
-            <label>ISBN:</label>
-            <input type="text" placeholder="Enter ISBN">
-            <br>
-            <label id="">Publication Date:</label>
-            <input type="date">
-            <br>
-            <label>Genre:</label>
-            <input type="text" placeholder="Enter genre">
-            <br>
-            <button type="submit">Add Book</button>
-        </form>
+      <h1>Book management system</h1>
+      <form id="Bookform">
+        <label>Book Title:</label>
+        <input type="text" placeholder="Enter book title" />
+        <br />
+        <label>Author:</label>
+        <input type="text" placeholder="Enter author name" />
+        <br />
+        <label>ISBN:</label>
+        <input type="text" maxlength="10" placeholder="Enter ISBN" required />
+        <br />
+        <label id="">Publication Date:</label>
+        <input type="date" required />
+        <br />
+        <label>Genre:</label>
+        <select name="genre" id="genre">
+          <option value="">Select a genre</option>
+          <option value="Fiction">Fiction</option>
+          <option value="Non-Fiction">Non-Fiction</option>
+          <option value="Science Fiction">Science Fiction</option>
+          <option value="Mystery">Mystery</option>
+        </select>
+        <br />
+        <button type="submit">Add Book</button>
+      </form>
     </div>
-     
-</body>
+  </body>
 </html>

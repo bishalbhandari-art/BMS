@@ -1,24 +1,26 @@
 # Book Management System (BMS)
 ## Project Overview
-The Book Management System helps users manage books by storing book details like title, author, ISBN, publication date, and genre.
+The Book Management System (BMS) is a web-based application that helps users manage and organize their book collection. Users can store comprehensive book details including title, author, ISBN, publication date, and genre. The system enables users to easily search, filter, and find their favorite books from their personal library. 
 # SDLC Phases
 ## 1. Requirement Phase
-- Understand user requirements
-- Decide required book fields
-- Plan project structure
+- Creating HTML form where user can find their personal choice book.
+- User can write, a book title, author name.
+- ISBN And Publication Date should be required to fill.
+- user can choose the genre or which kind of book he/she likes.
+- Then user can add the book.
 ## 2. Design Phase
 - Create UI layout
 - Design client-server architecture
 - Plan database structure
 ## 3. Implementation Phase
 - Create HTML form
+- Add CSS styling
 ## 4. Testing Phase
 - Test form validation
 - Check input fields
 - Verify UI responsiveness
 ## 5. Deployment Phase
 - Upload project to GitHub
-- Host project online if needed
 ## 6. Maintenance Phase
 - Fix bugs
 - Add new features
@@ -34,4 +36,8 @@ Database:
 - Stores book information
 # 3-Tier Architecture
 ## Presentation Layer
-HTML
+HTML, CSS
+## Business Logic Layer
+Server-side backend logic
+## Data Layer
+Database storage
