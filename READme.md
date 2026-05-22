@@ -36,12 +36,10 @@ Database:
 - Stores book information
 
 # Diagram Of 3-Tier Architecture
-            ||
+
 ## Presentation Layer
-HTML, CSS
-            ||
-## Business Logic Layer
-Server-side backend logic
-            ||
+ web and mobile core operation HTML, CSS     
+## Application Layer
+Allow user to interact Server-side backend logic           
 ## Data Layer
-Database storage
+Database storage, securly stores customers information.
