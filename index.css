@@ -1,44 +1,212 @@
+:root {
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --bg-app: #f1f5f9;
+  --bg-card: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border: #e2e8f0;
+  --radius: 12px;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+}
 body {
-  background-color: linear-gradient(135deg, #e0e8f5 0%, #f9f9f9 100%);
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: radial-gradient(
+    circle at 10% 20%,
+    rgba(241, 245, 249, 1) 0%,
+    rgba(226, 232, 240, 1) 90%
+  );
+  color: var(--text-main);
   min-height: 100vh;
+  padding: 40px 20px;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 20px;
 }
-h2 {
-  text-align: center;
-  margin-bottom: 25px;
-  font-weight: 700;
-  color: #2c3e50;
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
 }
-button {
-  width: 100%;
-  padding: 14px;
-  background-color: #007bff;
-  color: white;
-  border: none;
+.toast {
+  background: var(--bg-card);
+  padding: 12px 24px;
   border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid var(--primary);
+  margin-top: 10px;
+  transition: opacity 0.3s;
+  display: flex;
+  align-items: center;
 }
-input[type="text"],
-input[type="date"],
+.main-wrapper {
+  width: 100%;
+  max-width: 1200px;
+}
+.main-header {
+  margin-bottom: 30px;
+}
+.subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  margin-left: 42px;
+}
+.app-container {
+  display: flex;
+  gap: 25px;
+}
+#formSubtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.form-group {
+  margin-bottom: 16px;
+}
+label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: var(--text-muted);
+}
+input,
 select {
   width: 100%;
-  padding: 12px 16px;
-  font-size: 15px;
-  color: #334155;
-  background-color: #f8fafc;
-  border: 1px solid #cbd5e1;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
   border-radius: 8px;
+  font-size: 14px;
   outline: none;
+  background: #fafafa;
+  transition: all 0.2s;
 }
-input[type="text"]:focus,
-input[type="date"]:focus,
+input:focus,
 select:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+  background: var(--bg-card);
+  border-color: #818cf8;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+button {
+  width: 100%;
+  padding: 11px 18px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+button[type="submit"] {
+  background: var(--primary);
+  color: white;
+}
+button[type="submit"]:hover {
+  background: var(--primary-hover);
+}
+.btn-secondary {
+  background: #f1f5f9;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+.main-dashboard {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+}
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  padding: 16px;
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+#searchInput {
+  flex-grow: 1;
+  background: white;
+}
+.library-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.library-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 15px;
+}
+
+.genre-fiction {
+  background: #e0e7ff;
+  color: #4338ca;
+}
+.genre-non-fiction {
+  background: #d1fae5;
+  color: #065f46;
+}
+.genre-science-fiction {
+  background: #f3e8ff;
+  color: #6b21a8;
+}
+.genre-mystery {
+  background: #ffe4e6;
+  color: #9f1239;
+}
+.book-age-pill {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.book-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.book-author {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+.book-details {
+  border-top: 1px dashed var(--border);
+  padding-top: 8px;
+  font-size: 11px;
+  margin-bottom: 10px;
+}
+
+.btn-icon {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-muted);
 }

@@ -3,37 +3,139 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Book management system</title>
+    <title>Book Management System</title>
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <div>
-      <h2>Book management system</h2>
-      <form id="Bookform">
-        <label>Book Title:</label>
-        <input type="text" placeholder="Enter book title" />
-        <br />
-        <label>Author:</label>
-        <input type="text" placeholder="Enter author name" />
-        <br />
-        <label>ISBN:</label>
-        <input type="text" maxlength="10" placeholder="Enter ISBN" required />
-        <br />
-        <label id="">Publication Date:</label>
-        <input type="date" required />
-        <br />
-        <label>Genre:</label>
-        <select name="genre" id="genre">
-          <option value="">Select a genre</option>
-          <option value="Fiction">Fiction</option>
-          <option value="Non-Fiction">Non-Fiction</option>
-          <option value="Science Fiction">Science Fiction</option>
-          <option value="Mystery">Mystery</option>
-        </select>
-        <br />
-        <button type="submit">Add Book</button>
-      </form>
+    <div id="toastContainer" class="toast-container"></div>
+    <div class="main-wrapper">
+      <header class="main-header">
+        <div class="">
+          <h1>Book Management System</h1>
+        </div>
+        <p class="subtitle">Organize and manage your personal library with ease</p>
+      </header>
+
+      <div class="app-container">
+        <aside class="sidebar-form">
+          <div class="card">
+            <h3 id="formTitle">Add New Book</h3>
+            <p id="formSubtitle">Enter the book details below to add it to your collection.</p>
+            <form id="Bookform" novalidate>
+              <input type="hidden" id="editBookId" value="" />
+              
+              <div class="form-group">
+                <label for="title">Book Title</label>
+                <input id="title" type="text" placeholder="e.g. The Great Gatsby" required />
+                <div class="error-feedback" id="error-title"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="author">Author</label>
+                <input id="author" type="text" placeholder="e.g. F. Scott Fitzgerald" required />
+                <div class="error-feedback" id="error-author"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="ISBN">ISBN Number</label>
+                <input
+                  id="ISBN"
+                  type="text"
+                  maxlength="10"
+                  placeholder="9780743273565 (10 digits)"
+                  required
+                />
+                <div class="error-feedback" id="error-ISBN"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="publicationDate">Publication Date</label>
+                <input id="publicationDate" type="date" required />
+                <div class="error-feedback" id="error-publicationDate"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="genre">Genre</label>
+                <select name="genre" id="genre" required>
+                  <option value="">Select a genre</option>
+                  <option value="Fiction">Fiction</option>
+                  <option value="Non-Fiction">Non-Fiction</option>
+                  <option value="Science Fiction">Science Fiction</option>
+                  <option value="Mystery">Mystery</option>
+                </select>
+                <div class="error-feedback" id="error-genre"></div>
+              </div>
+
+              <div class="button-group">
+                <button type="submit" id="submitBtn">
+                  <span>Add Book</span>
+                </button>
+                <button type="button" id="cancelBtn" class="btn-secondary" style="display: none;">
+                  Cancel Edit
+                </button>
+              </div>
+            </form>
+          </div>
+        </aside>
+
+
+        <main class="main-dashboard">
+          
+          <section class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-label">Total Books</span>
+              <span id="stat-total" class="stat-value">0</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Average Age</span>
+              <span id="stat-avg-age" class="stat-value">0 yrs</span>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Top Genre</span>
+              <span id="stat-top-genre" class="stat-value">-</span>
+            </div>
+          </section>
+
+          <section class="filters-card">
+            <input type="text" id="searchInput" placeholder="Search by title, author, or ISBN..." />
+            <div class="filter-controls">
+              <div class="control-group">
+                <select id="filterGenre">
+                  <option value="All">All Genres</option>
+                  <option value="Fiction">Fiction</option>
+                  <option value="Non-Fiction">Non-Fiction</option>
+                  <option value="Science Fiction">Science Fiction</option>
+                  <option value="Mystery">Mystery</option>
+                </select>
+              </div>
+              <div class="control-group">
+                <select id="sortBy">
+                  <option value="dateAdded">Sort by: Date Added</option>
+                  <option value="title">Sort by: Title (A-Z)</option>
+                  <option value="age-asc">Sort by: Age (Newest first)</option>
+                  <option value="age-desc">Sort by: Age (Oldest first)</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <section class="library-container">
+            <div class="library-header">
+              <h3>Your Book Collection</h3>
+              <span id="collection-count" class="badge">0 books</span>
+            </div>
+            <div id="booksGrid" class="books-grid">
+
+            </div>
+            <div id="noBooksView" class="no-books-view">
+             <h4>No books found</h4>
+              <p>Start by adding books to your collection using the form on the left, or try adjusting your search/filter criteria.</p>
+            </div>
+          </section>
+        </main>
+      </div>
     </div>
+
     <script src="index.js"></script>
   </body>
 </html>
