@@ -22,17 +22,17 @@
             <h3 id="formTitle">Add New Book</h3>
             <p id="formSubtitle">Enter the book details below to add it to your collection.</p>
             <form id="Bookform" novalidate>
-              <input type="hidden" id="editBookId" value="" />
+              <input type="hidden" name="edit_book_id" id="editBookId" value="" />
               
               <div class="form-group">
                 <label for="title">Book Title</label>
-                <input id="title" type="text" placeholder="e.g. The Great Gatsby" required />
+                <input id="title" name="title" type="text" placeholder="e.g. The Great Gatsby" required />
                 <div class="error-feedback" id="error-title"></div>
               </div>
 
               <div class="form-group">
                 <label for="author">Author</label>
-                <input id="author" type="text" placeholder="e.g. F. Scott Fitzgerald" required />
+                <input id="author" name="author" type="text" placeholder="e.g. F. Scott Fitzgerald" required />
                 <div class="error-feedback" id="error-author"></div>
               </div>
 
@@ -41,16 +41,15 @@
                 <input
                   id="ISBN"
                   type="text"
-                  maxlength="10"
-                  placeholder="9780743273565 (10 digits)"
-                  required
+                  name="isbn_number"
+                  placeholder="9780743274(10 digits)"
                 />
                 <div class="error-feedback" id="error-ISBN"></div>
               </div>
 
               <div class="form-group">
                 <label for="publicationDate">Publication Date</label>
-                <input id="publicationDate" type="date" required />
+                <input id="publicationDate" name="publication_date" type="date" required />
                 <div class="error-feedback" id="error-publicationDate"></div>
               </div>
 
@@ -97,10 +96,10 @@
           </section>
 
           <section class="filters-card">
-            <input type="text" id="searchInput" placeholder="Search by title, author, or ISBN..." />
+            <input type="text" id="searchInput" name="search_input" placeholder="Search by title, author, or ISBN..." />
             <div class="filter-controls">
               <div class="control-group">
-                <select id="filterGenre">
+                <select id="filterGenre" name="filter_genre">
                   <option value="All">All Genres</option>
                   <option value="Fiction">Fiction</option>
                   <option value="Non-Fiction">Non-Fiction</option>
@@ -109,7 +108,7 @@
                 </select>
               </div>
               <div class="control-group">
-                <select id="sortBy">
+                <select id="sortBy" name="sort_by">
                   <option value="dateAdded">Sort by: Date Added</option>
                   <option value="title">Sort by: Title (A-Z)</option>
                   <option value="age-asc">Sort by: Age (Newest first)</option>
