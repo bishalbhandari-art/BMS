@@ -37,9 +37,4 @@ Database:
 
 # Diagram Of 3-Tier Architecture
 
-## Presentation Layer
- web and mobile core operation HTML, CSS     
-## Application Layer
-Allow user to interact Server-side backend logic           
-## Data Layer
-Database storage, securly stores customers information.
+<img width="656" height="719" alt="image" src="https://github.com/user-attachments/assets/bc7d8b7d-332c-4bd1-8ae3-ebeebb57c483" />
