@@ -25,15 +25,9 @@ The Book Management System (BMS) that allow users to add, edit, and display book
 - Add new features
 - Improve performance
 # Client-Server Model
-Client:
-- User browser
-- Sends requests
-Server:
-- Processes requests
-- Stores data
-Database:
-- Stores book information
+<img width="1020" height="681" alt="image" src="https://github.com/user-attachments/assets/a8fa9960-b031-4ae8-aacd-21d27796cd13" />
+
 
 # Diagram Of 3-Tier Architecture
-
+<img width="835" height="711" alt="image" src="https://github.com/user-attachments/assets/d2079bd9-5d08-4468-b4de-d7832d5d1fc5" />
 
