@@ -1,6 +1,5 @@
 # Book Management System (BMS)
-## Project Overview
-The Book Management System (BMS) is a web-based application that helps users manage and organize their book collection. Users can store comprehensive book details including title, author, ISBN, publication date, and genre. The system enables users to easily search, filter, and find their favorite books from their personal library. 
+The Book Management System (BMS) that allow users to add, edit, and display books. This includes features like age calculation of books, validation checks, and a genre filter. User can find their favorite books.
 # SDLC Phases
 ## 1. Requirement Phase
 - Created HTML form where user can find their personal choice book.
@@ -37,4 +36,4 @@ Database:
 
 # Diagram Of 3-Tier Architecture
 
-<img width="656" height="719" alt="image" src="https://github.com/user-attachments/assets/bc7d8b7d-332c-4bd1-8ae3-ebeebb57c483" />
+
