@@ -37,4 +37,3 @@ Database:
 
 # Diagram Of 3-Tier Architecture
 
-<img width="656" height="719" alt="image" src="https://github.com/user-attachments/assets/bc7d8b7d-332c-4bd1-8ae3-ebeebb57c483" />
