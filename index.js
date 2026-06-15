@@ -240,7 +240,19 @@ const booksGrid = document.getElementById("booksGrid");
 const searchInput = document.getElementById("searchInput");
 const filterGenre = document.getElementById("filterGenre");
 const sortBy = document.getElementById("sortBy");
-
+const saveBookToServer = (bookData) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      
+      const isSuccessful = Math.random() > 0.1; 
+      if (isSuccessful) {
+        resolve({ status: 200, message: "Server: Action synchronized successfully!", data: bookData });
+      } else {
+        reject(new Error("Network Error: Connection timed out. Could not reach server."));
+      }
+    }, 1200); 
+  });
+};
 function getBookAge(publicationDate) {
   let currentYear = new Date().getFullYear();
   let bookYear = new Date(publicationDate).getFullYear();
@@ -344,7 +356,7 @@ function displayBooks() {
   }
 }
 
-form.addEventListener("submit", function (e) {
+form.addEventListener("submit", async function (e) {
   e.preventDefault();
 
   let book = {
@@ -364,7 +376,15 @@ form.addEventListener("submit", function (e) {
   if (!confirmAdd) {
     return;
   }
-
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const originalBtnText = submitBtn ? submitBtn.textContent : "Submit";
+  if(submitBtn) {
+    submitBtn.textContent = "Connecting to server...";
+    submitBtn.disabled = true;
+  }
+  try {
+    
+    await saveBookToServer(book);
   if (editIndex === -1) {
     books.push(book);
   } else {
@@ -378,7 +398,15 @@ form.addEventListener("submit", function (e) {
   updateCollectionCount();
   updateTopGenre();
   updateAverageAge();
-});
+}catch(error){
+  console.error(error);
+  alert(`${error.message} - your changes were not saved locally`);
+}finally{
+  if (submitBtn) {
+    submitBtn.textContent = originalBtnText;
+    submitBtn.disabled = false;
+  }
+}});
 
 function editBook(index) {
   let book = books[index];
@@ -478,12 +506,60 @@ function updateCollectionCount() {
   document.getElementById("collection-count").textContent =
     books.length + " books";
 }
-
+function updateAllStats(){
 displayBooks();
 updateTotalBooks();
 updateCollectionCount();
 updateTopGenre();
 updateAverageAge();
+}
+async function fetchInitialBooks() {
+  try {
+    
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=4");
+    
+    if (!response.ok) {
+      throw new Error(`HTTP network error! Status: ${response.status}`);
+    }
+    
+    const apiData = await response.json();
+
+for (let i = 0; i < apiData.length; i++) {
+  let post = apiData[i];
+
+  let bookTitle = "Title " + post.title;     
+  let bookAuthor = "Author " + post.userId; 
+  let bookISBN = String(1234567890 + post.id); 
+  let bookDate = "201" + i + "-05-12";
+  
+  let bookGenre = "";
+  if (i === 0) {
+    bookGenre = "Fiction";
+  } else if (i === 1) {
+    bookGenre = "Non-Fiction";
+  } else if (i === 2) {
+    bookGenre = "Science Fiction";
+  } else {
+    bookGenre = "Mystery";
+  }
+  let newBook = {
+    title: bookTitle,
+    author: bookAuthor,
+    ISBN: bookISBN,
+    publicationDate: bookDate,
+    genre: bookGenre
+  };
+
+  books.push(newBook);
+}
+    updateAllStats();
+    
+  } catch (error) {
+    console.error("Failed to load initial API context:", error);
+    alert("⚠️ Could not load remote startup books. Initializing with empty system.");
+    updateAllStats();
+  }
+}
 
 searchInput.addEventListener("input", function () {
   displayBooks();
@@ -494,3 +570,5 @@ filterGenre.addEventListener("change", function () {
 sortBy.addEventListener("change", function () {
   displayBooks();
 });
+
+window.addEventListener("DOMContentLoaded", fetchInitialBooks);
