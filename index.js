@@ -94,9 +94,24 @@ function displayBooks() {
   }
   // Loop through books to display them
   for (let i = 0; i < booksToShow.length; i++) {
-    //for loop
+    //for loop Get the current book being processed
 
     let currentBook = booksToShow[i];
+    // Ignore books that don't match the user's search input
+    if (
+  !booksToShow[i].title.toLowerCase().includes(searchValue) &&
+  !booksToShow[i].author.toLowerCase().includes(searchValue) &&
+  !booksToShow[i].ISBN.includes(searchValue)
+) {
+  continue;
+}
+// Ignore books that don't belong to the selected genre
+if (
+  selectedGenre !== "All" &&
+  currentBook.genre !== selectedGenre
+) {
+  continue;
+}
     // Find actual index from original array
     let originalIndex = books.findIndex(function (book) {
       return book.ISBN === currentBook.ISBN;
