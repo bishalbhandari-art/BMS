@@ -35,32 +35,86 @@ function getBookAge(publicationDate) {
 
   return currentYear - bookYear;
 }
+document.getElementById("error-title").textContent = "";
+document.getElementById("error-author").textContent = "";
+document.getElementById("error-ISBN").textContent = "";
+document.getElementById("error-publicationDate").textContent = "";
+document.getElementById("error-genre").textContent = "";
 // Validate user input before saving
 function validateForm(book) {
   // Check if any field is empty
-  if (
-    book.title === "" ||
-    book.author === "" ||
-    book.ISBN === "" ||
-    book.publicationDate === "" ||
-    book.genre === ""
-  ) {
-    alert("All fields are required");
-    return false;
-  }
-  // ISBN should contain only digits
-  if (isNaN(book.ISBN)) {
-    alert("ISBN must contain only numbers");
-    return false;
-  }
-  // ISBN should be exactly 10 digits
-  if (book.ISBN.length !== 10) {
-    alert("ISBN number must be exactly 10 digits");
-    return false;
-  }
+//   if (
+//     book.title === "" ||
+//     book.author === "" ||
+//     book.ISBN === "" ||
+//     book.publicationDate === "" ||
+//     book.genre === ""
+//   ) {
+//     alert("All fields are required");
+//     return false;
+//   }
+//   // ISBN should contain only digits
+//   if (isNaN(book.ISBN)) {
+//     alert("ISBN must contain only numbers");
+//     return false;
+//   }
+//   // ISBN should be exactly 10 digits
+//   if (book.ISBN.length !== 10) {
+//     alert("ISBN number must be exactly 10 digits");
+//     return false;
+//   }
 
-  return true;
+//   return true;
+// }
+  if (book.title === "") {
+    document.getElementById("error-title").textContent =
+        "*Book title is required";
+    return false;
 }
+    if (book.author === "") {
+       document.getElementById("error-author").textContent =
+    "*Author is required"
+        return false;
+    }
+
+    if (book.ISBN === "") {
+    document.getElementById("error-ISBN").textContent =
+        "*ISBN is required";
+    return false;
+}
+ if (isNaN(book.ISBN)) {
+    document.getElementById("error-ISBN").textContent =
+        "*ISBN must contain only numbers";
+    return false;
+}
+
+    if (book.ISBN.length !== 10) {
+    document.getElementById("error-ISBN").textContent =
+        "*ISBN must be exactly 10 digits";
+    return false;
+}
+
+    if (book.publicationDate === "") {
+    document.getElementById("error-publicationDate").textContent =
+        "*Publication date is required";
+    return false;
+}
+
+    if (book.genre === "") {
+    document.getElementById("error-genre").textContent =
+        "*Please select a genre";
+    return false;
+}
+    return true;
+}
+const titleInput = document.getElementById("title");
+
+titleInput.addEventListener("input", function () {
+    if (titleInput.value.trim() !== "") {
+        document.getElementById("error-title").textContent = "";
+    }
+});
+
 // Render books on the UI
 function displayBooks() {
   // Clear previous book cards
@@ -313,8 +367,11 @@ function updateAllStats() {
   updateAverageAge();
 }
 // Fetch initial books from API
+const loadingMessage = document.getElementById("loadingMessage");
 async function fetchInitialBooks() {
   try {
+     loadingMessage.style.display = "block";
+    await new Promise(resolve => setTimeout(resolve, 1500));
     // Request sample data
     const response = await fetch(
       "https://jsonplaceholder.typicode.com/posts?_limit=4",
@@ -354,6 +411,7 @@ async function fetchInitialBooks() {
 
       books.push(newBook);
     }
+    loadingMessage.style.display = "none";
     // Update UI after loading
     updateAllStats();
   } catch (error) {
@@ -376,6 +434,25 @@ filterGenre.addEventListener("change", function () {
 // Re-render when sort option changes
 sortBy.addEventListener("change", function () {
   displayBooks();
+});
+document.getElementById("title").addEventListener("input", function () {
+  document.getElementById("error-title").textContent = "";
+});
+
+document.getElementById("author").addEventListener("input", function () {
+  document.getElementById("error-author").textContent = "";
+});
+
+document.getElementById("ISBN").addEventListener("input", function () {
+  document.getElementById("error-ISBN").textContent = "";
+});
+
+document.getElementById("publicationDate").addEventListener("input", function () {
+  document.getElementById("error-publicationDate").textContent = "";
+});
+
+document.getElementById("genre").addEventListener("change", function () {
+  document.getElementById("error-genre").textContent = "";
 });
 // Load initial data after HTML is ready
 window.addEventListener("DOMContentLoaded", fetchInitialBooks);
