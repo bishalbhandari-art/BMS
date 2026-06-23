@@ -147,3 +147,26 @@ button[type="submit"]:hover {
   border-radius: 4px;
   color: #818cf8;
 }
+#loadingMessage {
+  text-align: left;
+  padding: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #555;
+  display: none;
+}
+#error-title{
+  color: red;
+}
+#error-author{
+  color: red;
+}
+#error-ISBN{
+  color: red;
+}
+#error-publicationDate{
+  color: red;
+}
+#error-genre{
+  color: red;
+}
