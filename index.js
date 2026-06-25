@@ -174,16 +174,16 @@ if (
     let age = getBookAge(currentBook.publicationDate);
     // Add book card to UI
     booksGrid.innerHTML += `
-      <div class="book-card">
-        <h3>${currentBook.title}</h3>
-        <p>Author: ${currentBook.author}</p>
-        <p>ISBN: ${currentBook.ISBN}</p>
-        <p>Genre: ${currentBook.genre}</p>
-        <button class ="btnclass" onclick = "editBook(${originalIndex})">
+      <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
+        <h3 class="font-semibold text-lg mb-2">${currentBook.title}</h3>
+        <p class="text-sm mb-1">Author: ${currentBook.author}</p>
+        <p class="text-sm mb-1">ISBN: ${currentBook.ISBN}</p>
+        <p class="text-sm mb-4">Genre: ${currentBook.genre}</p>
+        <button class ="w-8 h-8 rounded border bg-green-100 hover:bg-green-200" onclick = "editBook(${originalIndex})">
           ✍️
         </button>
 
-        <button class = "btnclass1" onclick = "deleteBook(${originalIndex})">
+        <button class = "w-8 h-8 rounded border bg-red-100 hover:bg-red-200" onclick = "deleteBook(${originalIndex})">
           🗑️
         </button>
       </div>
