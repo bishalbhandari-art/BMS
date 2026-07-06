@@ -42,70 +42,69 @@ document.getElementById("error-publicationDate").textContent = "";
 document.getElementById("error-genre").textContent = "";
 // Validate user input before saving
 function validateForm(book) {
+  let isValid = true;
   // Check if any field is empty
-//   if (
-//     book.title === "" ||
-//     book.author === "" ||
-//     book.ISBN === "" ||
-//     book.publicationDate === "" ||
-//     book.genre === ""
-//   ) {
-//     alert("All fields are required");
-//     return false;
-//   }
-//   // ISBN should contain only digits
-//   if (isNaN(book.ISBN)) {
-//     alert("ISBN must contain only numbers");
-//     return false;
-//   }
-//   // ISBN should be exactly 10 digits
-//   if (book.ISBN.length !== 10) {
-//     alert("ISBN number must be exactly 10 digits");
-//     return false;
-//   }
+  //   if (
+  //     book.title === "" ||
+  //     book.author === "" ||
+  //     book.ISBN === "" ||
+  //     book.publicationDate === "" ||
+  //     book.genre === ""
+  //   ) {
+  //     alert("All fields are required");
+  //     return false;
+  //   }
+  //   // ISBN should contain only digits
+  //   if (isNaN(book.ISBN)) {
+  //     alert("ISBN must contain only numbers");
+  //     return false;
+  //   }
+  //   // ISBN should be exactly 10 digits
+  //   if (book.ISBN.length !== 10) {
+  //     alert("ISBN number must be exactly 10 digits");
+  //     return false;
+  //   }
 
-//   return true;
-// }
+  //   return true;
+  // }
   if (book.title === "") {
     document.getElementById("error-title").textContent =
-        "*Book title is required";
-    return false;
-}
-    if (book.author === "") {
-       document.getElementById("error-author").textContent =
-    "*Author is required"
-        return false;
-    }
+      "*Book title is required";
+    isValid = false;
+  }
+  if (book.author === "") {
+    document.getElementById("error-author").textContent = "*Author is required";
+    isValid = false;
+  }
 
-    if (book.ISBN === "") {
+  if (book.ISBN === "") {
+    document.getElementById("error-ISBN").textContent = "*ISBN is required";
+    isValid = false;
+  }
+  if (isNaN(book.ISBN)) {
     document.getElementById("error-ISBN").textContent =
-        "*ISBN is required";
-    return false;
-}
- if (isNaN(book.ISBN)) {
-    document.getElementById("error-ISBN").textContent =
-        "*ISBN must contain only numbers";
-    return false;
-}
+      "*ISBN must contain only numbers";
+    isValid = false;
+  }
 
-    if (book.ISBN.length !== 10) {
+  if (book.ISBN.trim().length !== 10) {
     document.getElementById("error-ISBN").textContent =
-        "*ISBN must be exactly 10 digits";
-    return false;
-}
+      "*ISBN must be exactly 10 digits";
+    isValid = false;
+  }
 
-    if (book.publicationDate === "") {
+  if (book.publicationDate === "") {
     document.getElementById("error-publicationDate").textContent =
-        "*Publication date is required";
-    return false;
-}
+      "*Publication date is required";
+    isValid = false;
+  }
 
-    if (book.genre === "") {
+  if (book.genre === "") {
     document.getElementById("error-genre").textContent =
-        "*Please select a genre";
-    return false;
-}
-    return true;
+      "*Please select a genre";
+    isValid = false;
+  }
+  return isValid;
 }
 const titleInput = document.getElementById("title");
 
@@ -153,19 +152,16 @@ function displayBooks() {
     let currentBook = booksToShow[i];
     // Ignore books that don't match the user's search input
     if (
-  !booksToShow[i].title.toLowerCase().includes(searchValue) &&
-  !booksToShow[i].author.toLowerCase().includes(searchValue) &&
-  !booksToShow[i].ISBN.includes(searchValue)
-) {
-  continue;
-}
-// Ignore books that don't belong to the selected genre
-if (
-  selectedGenre !== "All" &&
-  currentBook.genre !== selectedGenre
-) {
-  continue;
-}
+      !currentBook.title.toLowerCase().includes(searchValue) &&
+      !currentBook.author.toLowerCase().includes(searchValue) &&
+      !currentBook.ISBN.includes(searchValue)
+    ) {
+      continue;
+    }
+    // Ignore books that don't belong to the selected genre
+    if (selectedGenre !== "All" && currentBook.genre !== selectedGenre) {
+      continue;
+    }
     // Find actual index from original array
     let originalIndex = books.findIndex(function (book) {
       return book.ISBN === currentBook.ISBN;
@@ -173,26 +169,29 @@ if (
     // Calculate age for current book
     let age = getBookAge(currentBook.publicationDate);
     // Add book card to UI
+    let displayBooks = 0;
     booksGrid.innerHTML += `
-      <div class="book-card">
+      <div id="book-card">
         <h3>${currentBook.title}</h3>
         <p>Author: ${currentBook.author}</p>
         <p>ISBN: ${currentBook.ISBN}</p>
         <p>Genre: ${currentBook.genre}</p>
-        <button class ="btnclass" onclick = "editBook(${originalIndex})">
+        <p>Publication Date: ${new Date(currentBook.publicationDate).getFullYear()}</p>
+        <button id ="btnclass" onclick = "editBook(${originalIndex})">
           ✍️
         </button>
 
-        <button class = "btnclass1" onclick = "deleteBook(${originalIndex})">
+        <button id = "btnclass1" onclick = "deleteBook(${originalIndex})">
           🗑️
         </button>
       </div>
     `;
+    displayBooks++;
   }
   // Show empty state when no books exist
   let noBooksView = document.getElementById("noBooksView");
 
-  if (books.length === 0) {
+  if (displayBooks === 0) {
     noBooksView.style.display = "block";
   } else {
     noBooksView.style.display = "none";
@@ -203,8 +202,8 @@ form.addEventListener("submit", async function (e) {
   e.preventDefault(); // Prevent page refresh
   // Create book object from form values
   let book = {
-    title: document.getElementById("title").value,
-    author: document.getElementById("author").value,
+    title: document.getElementById("title").value.trim(),
+    author: document.getElementById("author").value.trim(),
     ISBN: document.getElementById("ISBN").value,
     publicationDate: document.getElementById("publicationDate").value,
     genre: document.getElementById("genre").value,
@@ -370,11 +369,11 @@ function updateAllStats() {
 const loadingMessage = document.getElementById("loadingMessage");
 async function fetchInitialBooks() {
   try {
-     loadingMessage.style.display = "block";
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    loadingMessage.style.display = "block";
+    await new Promise((resolve) => setTimeout(resolve, 1500));
     // Request sample data
     const response = await fetch(
-      "https://jsonplaceholder.typicode.com/posts?_limit=4",
+      "https://6a460aefa268c8be2ce71a1d.mockapi.io/books/BookAPI",
     );
     // Stop if API request fails
     if (!response.ok) {
@@ -384,29 +383,15 @@ async function fetchInitialBooks() {
     const apiData = await response.json();
     // Transform API posts into books
     for (let i = 0; i < apiData.length; i++) {
-      let post = apiData[i];
+      let apiBook = apiData[i];
 
-      let bookTitle = "Title " + post.title;
-      let bookAuthor = "Author " + post.userId;
-      let bookISBN = String(1234567890 + post.id);
-      let bookDate = "201" + i + "-05-12";
-
-      let bookGenre = "";
-      if (i === 0) {
-        bookGenre = "Fiction";
-      } else if (i === 1) {
-        bookGenre = "Non-Fiction";
-      } else if (i === 2) {
-        bookGenre = "Science Fiction";
-      } else {
-        bookGenre = "Mystery";
-      }
       let newBook = {
-        title: bookTitle,
-        author: bookAuthor,
-        ISBN: bookISBN,
-        publicationDate: bookDate,
-        genre: bookGenre,
+        id: apiBook.id,
+        title: apiBook.title,
+        author: apiBook.author,
+        ISBN: String(apiBook.isbn),
+        genre: apiBook.genre,
+        publicationDate: apiBook.publicationdate,
       };
 
       books.push(newBook);
@@ -447,9 +432,11 @@ document.getElementById("ISBN").addEventListener("input", function () {
   document.getElementById("error-ISBN").textContent = "";
 });
 
-document.getElementById("publicationDate").addEventListener("input", function () {
-  document.getElementById("error-publicationDate").textContent = "";
-});
+document
+  .getElementById("publicationDate")
+  .addEventListener("input", function () {
+    document.getElementById("error-publicationDate").textContent = "";
+  });
 
 document.getElementById("genre").addEventListener("change", function () {
   document.getElementById("error-genre").textContent = "";
