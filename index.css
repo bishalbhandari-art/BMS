@@ -129,7 +129,7 @@ button[type="submit"]:hover {
   gap: 15px;
 }
 
-.btnclass {
+#btnclass {
   width: 28px;
   height: 28px;
   padding: 0;
@@ -138,7 +138,7 @@ button[type="submit"]:hover {
   border-radius: 4px;
   color: #818cf8;
 }
-.btnclass1 {
+#btnclass1 {
   width: 28px;
   height: 28px;
   padding: 0;
