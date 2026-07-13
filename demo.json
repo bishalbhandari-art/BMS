@@ -1,0 +1,178 @@
+[
+  {
+    "id": 1,
+    "title": "The Silent Library",
+    "author": "Eleanor Vance",
+    "genre": "Mystery",
+    "publicationdate": "2019-04-12",
+    "isbn": 9781234567
+  },
+  {
+    "id": 2,
+    "title": "Quantum Mornings",
+    "author": "Rajesh Iyer",
+    "genre": "Science Fiction",
+    "publicationdate": "2021-02-24",
+    "isbn": 9781234568
+  },
+  {
+    "id": 3,
+    "title": "The Cartographer's Daughter",
+    "author": "Mira Solenne",
+    "genre": "Fiction",
+    "publicationdate": "2018-09-15",
+    "isbn": 9781523456
+  },
+  {
+    "id": 4,
+    "title": "Echoes of the Deep",
+    "author": "Thomas Reyes",
+    "genre": "Mystery",
+    "publicationdate": "2022-11-05",
+    "isbn": 9784123456
+  },
+  {
+    "id": 5,
+    "title": "Gardens of Stone",
+    "author": "Aisha Karim",
+    "genre": "Fiction",
+    "publicationdate": "2020-06-18",
+    "isbn": 9784123457
+  },
+  {
+    "id": 6,
+    "title": "The Last Algorithm",
+    "author": "David Chen",
+    "genre": "Science Fiction",
+    "publicationdate": "2023-01-22",
+    "isbn": 9812345679
+  },
+  {
+    "id": 7,
+    "title": "Whispers in the Fog",
+    "author": "Catherine Bell",
+    "genre": "Mystery",
+    "publicationdate": "2017-10-31",
+    "isbn": 9234567951
+  },
+  {
+    "id": 8,
+    "title": "Bread and Salt",
+    "author": "Giovanni Russo",
+    "genre": "Fiction",
+    "publicationdate": "2021-05-14",
+    "isbn": 9234567968
+  },
+  {
+    "id": 9,
+    "title": "The Iron Meridian",
+    "author": "Sofia Andersson",
+    "genre": "Mystery",
+    "publicationdate": "2019-08-09",
+    "isbn": 9812345680
+  },
+  {
+    "id": 10,
+    "title": "Tides of Memory",
+    "author": "Nathan Brooks",
+    "genre": "Non-Fiction",
+    "publicationdate": "2016-12-03",
+    "isbn": 9784123459
+  },
+  {
+    "id": 11,
+    "title": "Code of the Ancients",
+    "author": "Priya Nair",
+    "genre": "Fiction",
+    "publicationdate": "2022-07-27",
+    "isbn": 9234567999
+  },
+  {
+    "id": 12,
+    "title": "The Glasshouse Effect",
+    "author": "Oliver Grant",
+    "genre": "Non-Fiction",
+    "publicationdate": "2020-03-11",
+    "isbn": 9781234581
+  },
+  {
+    "id": 13,
+    "title": "Midnight at the Observatory",
+    "author": "Lena Petrova",
+    "genre": "Science Fiction",
+    "publicationdate": "2018-11-19",
+    "isbn": 9781234582
+  },
+  {
+    "id": 14,
+    "title": "A Field of Crows",
+    "author": "Marcus Webb",
+    "genre": "Mystery",
+    "publicationdate": "2023-10-08",
+    "isbn": 9781234583
+  },
+  {
+    "id": 15,
+    "title": "The Weaver's Thread",
+    "author": "Hana Tanaka",
+    "genre": "Fiction",
+    "publicationdate": "2019-05-25",
+    "isbn": 9781234584
+  },
+  {
+    "id": 16,
+    "title": "Saltwater Hearts",
+    "author": "Chetan Bhagat",
+    "genre": "Fiction",
+    "publicationdate": "2021-02-14",
+    "isbn": 9781234585
+  },
+  {
+    "id": 17,
+    "title": "The Forgotten Protocol",
+    "author": "James Whitlock",
+    "genre": "Science Fiction",
+    "publicationdate": "2022-04-02",
+    "isbn": 9781234586
+  },
+  {
+    "id": 18,
+    "title": "Beneath Banyan Trees",
+    "author": "Ananya Rao",
+    "genre": "Fiction",
+    "publicationdate": "2017-08-30",
+    "isbn": 9781234587
+  },
+  {
+    "id": 19,
+    "title": "Stars Over Reykjavik",
+    "author": "Erik Lindqvist",
+    "genre": "Non-Fiction",
+    "publicationdate": "2020-12-12",
+    "isbn": 9781234588
+  },
+  {
+    "id": 20,
+    "title": "The Clockwork Garden",
+    "author": "Beatrice Hale",
+    "genre": "Science Fiction",
+    "publicationdate": "2023-06-01",
+    "isbn": 9781234589
+  },
+  {
+    "id": 21,
+    "title": "To kill a mockingbird",
+    "author": "Harper Lee",
+    "genre": "Fiction",
+    "publicationdate": "2023-07-11",
+    "isbn": 4481234568
+  },
+  {
+    "id": 22,
+    "title": "Dune",
+    "author": "Frank Herbert",
+    "genre": "Science Fiction",
+    "publicationdate": "2023-10-01",
+    "isbn": 9581234568
+  }
+]
