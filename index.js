@@ -372,9 +372,7 @@ async function fetchInitialBooks() {
     loadingMessage.style.display = "block";
     await new Promise((resolve) => setTimeout(resolve, 1500));
     // Request sample data
-    const response = await fetch(
-      "https://6a460aefa268c8be2ce71a1d.mockapi.io/books/BookAPI",
-    );
+    const response = await fetch('./demo.json');
     // Stop if API request fails
     if (!response.ok) {
       throw new Error(`HTTP network error! Status: ${response.status}`);
