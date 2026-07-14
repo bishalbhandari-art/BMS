@@ -6,6 +6,7 @@ const booksGrid = document.getElementById("booksGrid");
 const searchInput = document.getElementById("searchInput");
 const filterGenre = document.getElementById("filterGenre");
 const sortBy = document.getElementById("sortBy");
+const cancelBtn = document.getElementById("cancelBtn");
 const saveBookToServer = (bookData) => {
   // Simulate saving data to a server
   return new Promise((resolve, reject) => {
@@ -42,30 +43,7 @@ document.getElementById("error-publicationDate").textContent = "";
 document.getElementById("error-genre").textContent = "";
 // Validate user input before saving
 function validateForm(book) {
-  // Check if any field is empty
-//   if (
-//     book.title === "" ||
-//     book.author === "" ||
-//     book.ISBN === "" ||
-//     book.publicationDate === "" ||
-//     book.genre === ""
-//   ) {
-//     alert("All fields are required");
-//     return false;
-//   }
-//   // ISBN should contain only digits
-//   if (isNaN(book.ISBN)) {
-//     alert("ISBN must contain only numbers");
-//     return false;
-//   }
-//   // ISBN should be exactly 10 digits
-//   if (book.ISBN.length !== 10) {
-//     alert("ISBN number must be exactly 10 digits");
-//     return false;
-//   }
 
-//   return true;
-// }
   if (book.title === "") {
     document.getElementById("error-title").textContent =
         "*Book title is required";
@@ -178,7 +156,9 @@ if (
         <h3 class="font-semibold text-lg mb-2">${currentBook.title}</h3>
         <p class="text-sm mb-1">Author: ${currentBook.author}</p>
         <p class="text-sm mb-1">ISBN: ${currentBook.ISBN}</p>
-        <p class="text-sm mb-4">Genre: ${currentBook.genre}</p>
+        <p class="text-sm mb-1">Genre: ${currentBook.genre}</p>
+        <p class="text-sm mb-1">Publication Date: ${new Date(currentBook.publicationDate).getFullYear()}</p>
+        <p class="text-sm mb-4">Book Age: ${age}</p>
         <button class ="w-8 h-8 rounded border bg-green-100 hover:bg-green-200" onclick = "editBook(${originalIndex})">
           ✍️
         </button>
@@ -266,6 +246,7 @@ function editBook(index) {
   document.getElementById("genre").value = book.genre;
 
   editIndex = index;
+  document.getElementById("cancelBtn").style.display = "block";
 }
 // Remove selected book
 function deleteBook(index) {
@@ -366,6 +347,23 @@ function updateAllStats() {
   updateTopGenre();
   updateAverageAge();
 }
+// reset the form
+function resetForm() {
+  document.getElementById("Bookform").reset();
+
+  editIndex = -1;
+
+  document.getElementById("formTitle").textContent =
+    "Add New Book";
+    
+  document.getElementById("formSubtitle").textContent =
+    "Enter the book details below to add it to your collection.";
+
+  document.getElementById("submitBtn").textContent =
+    "Add Book";
+
+  document.getElementById("cancelBtn").style.display = "none";
+}
 // Fetch initial books from API
 const loadingMessage = document.getElementById("loadingMessage");
 async function fetchInitialBooks() {
@@ -435,6 +433,7 @@ filterGenre.addEventListener("change", function () {
 sortBy.addEventListener("change", function () {
   displayBooks();
 });
+cancelBtn.addEventListener("click", resetForm);//
 document.getElementById("title").addEventListener("input", function () {
   document.getElementById("error-title").textContent = "";
 });
