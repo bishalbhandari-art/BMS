@@ -20,14 +20,21 @@ export class BaseBook{
 }
 
 export class EBook extends BaseBook {
-  constructor(title, author, ISBN, publicationDate, genre) {
+  constructor(title, author, ISBN, publicationDate, genre,fileSizeMB) {
     super(title, author, ISBN, publicationDate, genre);
+    this.fileSizeMB = fileSizeMB;
   }
-}
+  getBookAge(){
+    return `this.fileSizeMB`;
+  }}
 
 
 export class PrintedBook extends BaseBook {
-  constructor(title, author, ISBN, publicationDate, genre) {
+  constructor(title, author, ISBN, publicationDate, genre, weightInGrams) {
     super(title, author, ISBN, publicationDate, genre);
+    this.weightInGrams = weightInGrams;
+  }
+  getbooksize(){
+    return `this.weightInGrams`;
   }
 }

@@ -44,8 +44,8 @@ class BookManager {
 
         let newBook =
           genre === "Science Fiction" || genre === "Mystery"
-            ? new EBook(title, author, isbn, pubDate, genre)
-            : new PrintedBook(title, author, isbn, pubDate, genre);
+            ? new EBook(title, author, isbn, pubDate, genre, apiBook.fileSizeMB || 3.5)
+            : new PrintedBook(title, author, isbn, pubDate, genre, apiBook.weightInGrams || 500);
         this.books.push(newBook);
       }
       if (loadingMessage) loadingMessage.style.display = "none";
@@ -70,10 +70,10 @@ class BookManager {
   }
   calculateTopGenre() {
     let counts = {
-      Fiction: 0,
+      "Fiction": 0,
       "Non-Fiction": 0,
       "Science Fiction": 0,
-      Mystery: 0,
+      "Mystery": 0,
     };
     for (let b of this.books) {
       if (counts[b.genre] !== undefined) counts[b.genre]++;
