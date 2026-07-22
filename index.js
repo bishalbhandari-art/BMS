@@ -134,11 +134,40 @@ function displayBooks() {
       return a.title.localeCompare(b.title);
     });
   }
-  // Sort books by age (newest first)
-  if (sortBy.value === "age-asc") {
-    booksToShow.sort(function (a, b) {
-      return getBookAge(a.publicationDate) - getBookAge(b.publicationDate);
-    });
+  async function fetchInitialBooks() {
+    const loadingMessage = document.getElementById("loadingMessage");
+    try {
+      if (loadingMessage) loadingMessage.style.display = "block";
+
+      await new Promise((r) => setTimeout(r, 1500));
+      const response = await fetch(API_URL.baseUrl);
+      if (!response.ok) throw new Error(`HTTP Status: ${response.status}`);
+
+      const apiData = await response.json();
+      this.books = []; // Clear current references
+
+      for (let i = 0; i < apiData.length; i++) {
+        let apiBook = apiData[i];
+        const title = apiBook.title;
+        const author = apiBook.author;
+        const isbn = apiBook.isbn || apiBook.ISBN;
+        const pubDate = apiBook.publicationdate || apiBook.publicationDate;
+        const genre = apiBook.genre;
+
+        let newBook =
+          genre === "Science Fiction" || genre === "Mystery"
+            ? new EBook(title, author, isbn, pubDate, genre, apiBook.fileSizeMB || 3.5)
+            : new PrintedBook(title, author, isbn, pubDate, genre, apiBook.weightInGrams || 500);
+        this.books.push(newBook);
+      }
+      if (loadingMessage) loadingMessage.style.display = "none";
+      this.updateAllStats();
+    } catch (error) {
+      console.error("Failed to load startup books:", error);
+      alert("⚠️ Remote sync failed. Initializing empty collection.");
+      if (loadingMessage)loadingMessage.style.display = "none";
+      this.updateAllStats();
+    }
   }
   // Sort books by age (oldest first)
   if (sortBy.value === "age-desc") {
@@ -146,18 +175,15 @@ function displayBooks() {
       return getBookAge(b.publicationDate) - getBookAge(a.publicationDate);
     });
   }
-  // Loop through books to display them
-  for (let i = 0; i < booksToShow.length; i++) {
-    //for loop Get the current book being processed
-
-    let currentBook = booksToShow[i];
-    // Ignore books that don't match the user's search input
-    if (
-      !currentBook.title.toLowerCase().includes(searchValue) &&
-      !currentBook.author.toLowerCase().includes(searchValue) &&
-      !currentBook.ISBN.includes(searchValue)
-    ) {
-      continue;
+  function calculateTopGenre() {
+    let counts = {
+      "Fiction": 0,
+      "Non-Fiction": 0,
+      "Science Fiction": 0,
+      "Mystery": 0,
+    };
+    for (let b of this.books) {
+      if (counts[b.genre] !== undefined) counts[b.genre]++;
     }
     // Ignore books that don't belong to the selected genre
     if (selectedGenre !== "All" && currentBook.genre !== selectedGenre) {
