@@ -1,0 +1,13 @@
+{
+  "type": "module",
+  "description": "Book Management System using TypeScript",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "typescript": "^7.0.2"
+  }
+}
