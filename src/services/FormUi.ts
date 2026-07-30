@@ -25,8 +25,8 @@ export default class FormUI {
     } else if (!isNumeric) {
       if (errIsbnEl) errIsbnEl.textContent = "* ISBN must contain numbers only";
       isValid = false;
-    } else if (isbnVal.length !== 10 && isbnVal.length !== 13) {
-      if (errIsbnEl) errIsbnEl.textContent = "* ISBN must be 10 or 13 digits";
+    } else if (isbnVal.length !== 10) {
+      if (errIsbnEl) errIsbnEl.textContent = "* ISBN must be 10 digits";
       isValid = false;
     }
     if (book.publicationDate === "") {
