@@ -1,0 +1,5 @@
+#Ignore compiled JavaScript files / dist outputs
+dist/js
+
+#Ignore compiled JavaScript files / dist outputs
+node_modules/
