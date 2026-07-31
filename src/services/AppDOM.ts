@@ -78,7 +78,7 @@ export default class AppDOM {
 
       const pubEl = document.createElement("p");
       pubEl.className = "text-sm mb-1";
-      pubEl.textContent = `Publication: ${pubYear}`;
+      pubEl.textContent = `Publication: ${Number.isNaN(pubYear) ? "N/A" : pubYear}`;
       card.appendChild(pubEl);
 
       const ageEl = document.createElement("p");
@@ -107,10 +107,8 @@ export default class AppDOM {
       printedCount++;
     }
 
-    const noBooksView = document.getElementById("noBooksView") as HTMLElement | null;
-    if (noBooksView) {
-      noBooksView.style.display = printedCount === 0 ? "block" : "none";
-    }
+     const countEl = document.getElementById("collection-count") as HTMLElement | null;
+     if (countEl) countEl.textContent = `${printedCount} books`;
   }
 }
 

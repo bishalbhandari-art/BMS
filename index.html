@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Book Management System</title>
-    <!-- <link rel="stylesheet" href="index.css" /> -->
      <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-green-200 min-h-screen text-slate-900 p-4 md:p-8">
@@ -43,7 +42,7 @@
                   id="ISBN"
                   type="text"
                   name="isbn_number"
-                  placeholder="9780743274(10 digits)"
+                  placeholder="9780743274(10 digits or 13 digits)"
                  class="w-full rounded-lg border border-slate-300 bg-green-100 px-4 py-3 text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-green-400"
                 />
                 <div class="text-sm text-red-500 mt-1" id="error-ISBN"></div>
@@ -125,7 +124,7 @@
               <h3 class="text-2xl font-semibold">Your Book Collection</h3>
               <span id="collection-count" class="bg-green-300 px-3 py-1 rounded-full text-sm font-medium">0 books</span>
             </div>
-             <div id="loadingMessage" class="text-2xl text-bold">
+             <div id="loadingMessage" class="text-2xl font-bold">
               Loading books...
             </div>
             <div id="booksGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">

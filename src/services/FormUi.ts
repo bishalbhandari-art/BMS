@@ -25,18 +25,25 @@ export default class FormUI {
     } else if (!isNumeric) {
       if (errIsbnEl) errIsbnEl.textContent = "* ISBN must contain numbers only";
       isValid = false;
-    } else if (isbnVal.length !== 10) {
-      if (errIsbnEl) errIsbnEl.textContent = "* ISBN must be 10 digits";
+    } else if (isbnVal.length !== 10 && isbnVal.length !== 13) {
+      if (errIsbnEl) errIsbnEl.textContent = "* ISBN must be 10 digits or 13 digits";
       isValid = false;
     }
     if (book.publicationDate === "") {
       const errEl = document.getElementById("error-publicationDate") as HTMLElement | null;
       if (errEl) errEl.textContent = "*Date is required";
       isValid = false;
-    } else if (new Date(book.publicationDate) > new Date()) {
-      const errEl = document.getElementById("error-publicationDate") as HTMLElement | null;
-      if (errEl) errEl.textContent = "* Publication date cannot be in the future.";
-      isValid = false;
+    }else {
+       const pubDate = new Date(book.publicationDate);
+       if (Number.isNaN(pubDate.getTime())) {
+         const errEl = document.getElementById("error-publicationDate") as HTMLElement | null;
+         if (errEl) errEl.textContent = "*Publication date is invalid";
+         isValid = false;
+       } else if (pubDate > new Date()) {
+         const errEl = document.getElementById("error-publicationDate") as HTMLElement | null;
+         if (errEl) errEl.textContent = "*Publication date cannot be in the future.";
+         isValid = false;
+       }
     }
     if (book.genre === "") {
       const errEl = document.getElementById("error-genre") as HTMLElement | null;
