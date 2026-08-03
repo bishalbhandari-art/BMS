@@ -64,10 +64,8 @@ export class BookManager {
   updateAllStats(): void {
     AppDOM.renderGrid(this.books);
     const totalEl = document.getElementById("stat-total") as HTMLElement | null;
-    const countEl = document.getElementById("collection-count") as HTMLElement | null;
 
     if (totalEl) totalEl.textContent = this.books.length.toString();
-    if (countEl) countEl.textContent = `${this.books.length} books`;
 
     this.calculateTopGenre();
     this.calculateAverageAge();

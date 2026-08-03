@@ -109,6 +109,8 @@ export default class AppDOM {
 
      const countEl = document.getElementById("collection-count") as HTMLElement | null;
      if (countEl) countEl.textContent = `${printedCount} books`;
+     const noBooksView = document.getElementById("noBooksView") as HTMLElement | null;
+     if (noBooksView) noBooksView.style.display = printedCount === 0 ? "block" : "none";
   }
 }
 
@@ -173,8 +175,9 @@ if (bookForm) {
       }
       FormUI.reset();
       systemDB.updateAllStats();
-    } catch (error: any) {
-      alert(`${error.message} - configuration context unsaved.`);
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : "An unexpected error occurred.";
+      alert(`${msg} - Changes could not be saved.`);
     } finally {
       target.textContent = originalText;
       submitBtn.disabled = false;
