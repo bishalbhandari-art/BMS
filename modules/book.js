@@ -1,40 +1,50 @@
 // models/Book.js
 export class BaseBook{
-  constructor(title, author, ISBN, publicationDate, genre) {
+  constructor(title, author, ISBN, publicationDate, genre, price) {
     this.title = title;
     this.author = author;
     this.ISBN = ISBN;
     this.publicationDate = publicationDate;
-    this.genre = genre; 
-    
-    const currentYear = new Date().getFullYear();
-    const bookYear = new Date(this.publicationDate).getFullYear();
-    this.bookAge = Math.max(!isNaN(bookYear) ? currentYear - bookYear : 0, 1);
-    this.discountedPrice = (Math.random() * 40 + 5).toFixed(2);
+    this.genre = genre;
+    this.price = Math.floor(Math.random() * 51) + 10;
+    this.id = String(Date.now()+(Math.random()));
+    this.bookAge = this.getBookAge();
+  }
+
+  getDiscountedPrice() {
+    return this.price * 0.9;
+  }
+  get discountedPrice() {
+    return this.getDiscountedPrice().toFixed(0);
   }
 
   // Business logic method to calculate book age
   getBookAge() {
-    return this.bookAge;
-}
+    const pubDate = new Date(this.publicationDate);
+    const bookYear = pubDate.getFullYear();
+    if (isNaN(bookYear)) return 0;
+    const currentYear = new Date().getFullYear();
+    return Math.max(0, currentYear - bookYear);
+  }
 }
 
 export class EBook extends BaseBook {
-  constructor(title, author, ISBN, publicationDate, genre,fileSizeMB) {
-    super(title, author, ISBN, publicationDate, genre);
+  constructor(title, author, ISBN, publicationDate, genre,fileSizeMB, price = 20) {
+    super(title, author, ISBN, publicationDate, genre, price);
     this.fileSizeMB = fileSizeMB;
   }
-  getBookAge(){
-    return `this.fileSizeMB`;
-  }}
+  getFileSizeMB() {
+    return this.fileSizeMB;
+  }
+}
 
 
 export class PrintedBook extends BaseBook {
-  constructor(title, author, ISBN, publicationDate, genre, weightInGrams) {
-    super(title, author, ISBN, publicationDate, genre);
+  constructor(title, author, ISBN, publicationDate, genre, weightInGrams, price = 20) {
+    super(title, author, ISBN, publicationDate, genre, price);
     this.weightInGrams = weightInGrams;
   }
-  getbooksize(){
-    return `this.weightInGrams`;
+  getWeightInGrams() {
+    return this.weightInGrams;
   }
 }

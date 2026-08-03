@@ -18,14 +18,27 @@ export default class FormUI {
       const errEl = document.getElementById("error-ISBN");
       if (errEl) errEl.textContent = "*ISBN is required";
       isValid = false;
-    } else if (isNaN(book.ISBN) || book.ISBN.trim().length !== 10) {
+    } else {
+      const isbnVal = book.ISBN.trim();
+      const isNumeric = isbnVal.split("").every(function(char) {
+        return char >= "0" && char <= "9";
+      });
       const errEl = document.getElementById("error-ISBN");
-      if (errEl) errEl.textContent = "* ISBN muist be 10 digits";
-      isValid = false;
+      if (!isNumeric) {
+        if (errEl) errEl.textContent = "* ISBN must contain numbers only";
+        isValid = false;
+      } else if (isbnVal.length !== 10 && isbnVal.length !== 13) {
+        if (errEl) errEl.textContent = "* ISBN must be 10 or 13 digits";
+        isValid = false;
+      }
     }
     if (book.publicationDate === "") {
       const errEl = document.getElementById("error-publicationDate");
       if (errEl) errEl.textContent = "*Date is required";
+      isValid = false;
+    } else if (new Date(book.publicationDate) > new Date()) {
+      const errEl = document.getElementById("error-publicationDate");
+      if (errEl) errEl.textContent = "* Publication date cannot be in the future.";
       isValid = false;
     }
     if (book.genre === "") {

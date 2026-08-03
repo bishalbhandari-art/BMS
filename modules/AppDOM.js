@@ -19,9 +19,9 @@ export default class AppDOM {
     if (sortBy === "title")
       processingList.sort((a, b) => a.title.localeCompare(b.title));
     if (sortBy === "age-asc")
-      processingList.sort((a, b) => a.bookAge - b.bookAge);
+      processingList.sort((a, b) => a.getBookAge() - b.getBookAge());
     if (sortBy === "age-desc")
-      processingList.sort((a, b) => b.bookAge - a.bookAge);
+      processingList.sort((a, b) => b.getBookAge() - a.getBookAge());
 
     let printedCount = 0;
 
@@ -38,28 +38,65 @@ export default class AppDOM {
       if (selectedGenre !== "All" && currentBook.genre !== selectedGenre)
         continue;
 
-      let originalIndex = rawBooksArr.findIndex(
-        (b) => b.ISBN === currentBook.ISBN,
-      );
+      const card = document.createElement("div");
+      card.className = "bg-white rounded-xl p-4 shadow-sm border border-slate-200";
 
-      grid.innerHTML += `
-        <div class="bg-white rounded-xl p-4 shadow-sm border border-slate-200">
-          <h3 class="font-semibold text-lg mb-2">${currentBook.title}</h3>
-          <p class="text-sm mb-1">Author: ${currentBook.author}</p>
-          <p class="text-sm mb-1">ISBN: ${currentBook.ISBN}</p>
-          <p class="text-sm mb-1">Genre: ${currentBook.genre}</p>
-          <p class="text-sm mb-1">Publication: ${new Date(currentBook.publicationDate).getFullYear()}</p>
-          <p class="text-sm mb-4">Book Age: ${currentBook.bookAge} yrs</p>
-          <p class="text-sm font-semibold text-green-600 mb-4">Promo Price: $${currentBook.discountedPrice}</p>
-          <button class="edit-action-btn w-8 h-8 rounded border bg-green-100 hover:bg-green-200" data-index="${originalIndex}">✍️</button>
-          <button class="delete-action-btn w-8 h-8 rounded border bg-red-100 hover:bg-red-200" data-index="${originalIndex}">🗑️</button>
-        </div>
-      `;
+      const titleEl = document.createElement("h3");
+      titleEl.className = "font-semibold text-lg mb-2";
+      titleEl.textContent = currentBook.title;
+      card.appendChild(titleEl);
+
+      const authorEl = document.createElement("p");
+      authorEl.className = "text-sm mb-1";
+      authorEl.textContent = "Author: " + currentBook.author;
+      card.appendChild(authorEl);
+
+      const isbnEl = document.createElement("p");
+      isbnEl.className = "text-sm mb-1";
+      isbnEl.textContent = "ISBN: " + currentBook.ISBN;
+      card.appendChild(isbnEl);
+
+      const genreEl = document.createElement("p");
+      genreEl.className = "text-sm mb-1";
+      genreEl.textContent = "Genre: " + currentBook.genre;
+      card.appendChild(genreEl);
+
+      const pubYear = new Date(currentBook.publicationDate).getFullYear();
+      const pubEl = document.createElement("p");
+      pubEl.className = "text-sm mb-1";
+      pubEl.textContent = "Publication: " + (isNaN(pubYear) ? "N/A" : pubYear);
+      card.appendChild(pubEl);
+
+      const ageEl = document.createElement("p");
+      ageEl.className = "text-sm mb-4";
+      ageEl.textContent = "Book Age: " + currentBook.getBookAge() + " yrs";
+      card.appendChild(ageEl);
+
+      const priceEl = document.createElement("p");
+      priceEl.className = "text-sm font-semibold text-green-600 mb-4";
+      priceEl.textContent = "Promo Price: $" + currentBook.discountedPrice;
+      card.appendChild(priceEl);
+
+      const editBtn = document.createElement("button");
+      editBtn.className = "edit-action-btn w-8 h-8 rounded border bg-green-100 hover:bg-green-200 mr-2";
+      editBtn.setAttribute("data-id", currentBook.id);
+      editBtn.textContent = "✍️";
+      card.appendChild(editBtn);
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.className = "delete-action-btn w-8 h-8 rounded border bg-red-100 hover:bg-red-200";
+      deleteBtn.setAttribute("data-id", currentBook.id);
+      deleteBtn.textContent = "🗑️";
+      card.appendChild(deleteBtn);
+
+      grid.appendChild(card);
       printedCount++;
     }
 
-    document.getElementById("noBooksView").style.display =
-      printedCount === 0 ? "block" : "none";
+    const countEl = document.getElementById("collection-count");
+    if (countEl) countEl.textContent = printedCount + " books";
+    const noBooksView = document.getElementById("noBooksView");
+    if (noBooksView) noBooksView.style.display = printedCount === 0 ? "block" : "none";
   }
 }
 document
@@ -98,13 +135,23 @@ document
       if (editIndex === -1) {
         systemDB.books.push(book);
       } else {
-        book.discountedPrice = systemDB.books[editIndex].discountedPrice;
+        const existingBook = systemDB.books[editIndex];
+        if (existingBook) {
+          book.id = existingBook.id;
+          book.price = existingBook.price;
+          if (book instanceof EBook && existingBook instanceof EBook) {
+            book.fileSizeMB = existingBook.fileSizeMB;
+          } else if (book instanceof PrintedBook && existingBook instanceof PrintedBook) {
+            book.weightInGrams = existingBook.weightInGrams;
+          }
+        }
         systemDB.books[editIndex] = book;
       }
       FormUI.reset();
       systemDB.updateAllStats();
     } catch (error) {
-      alert(`${error.message} - configuration context unsaved.`);
+      const msg = error instanceof Error ? error.message : "An unexpected error occurred.";
+      alert(msg + " - Changes could not be saved.");
     } finally {
       target.textContent = originalText;
       submitBtn.disabled = false;
@@ -115,7 +162,9 @@ document.getElementById("booksGrid").addEventListener("click", function (e) {
   const targetBtn = e.target.closest("button");
   if (!targetBtn) return;
 
-  const index = parseInt(targetBtn.getAttribute("data-index"), 10);
+  const bookId = targetBtn.getAttribute("data-id");
+  const index = systemDB.books.findIndex((b) => b.id === bookId);
+  if (index === -1) return;
 
   if (targetBtn.classList.contains("edit-action-btn")) {
     FormUI.populateForEdit(index);
