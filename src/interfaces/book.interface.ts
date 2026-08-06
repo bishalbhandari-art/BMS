@@ -2,16 +2,34 @@ import type { CategoryType } from '../types/bookTypes';
 
 export type BookGenre = CategoryType | string;
 
-export interface IBook {
-  id?: string;
+// ISP: IBook is split into four small, focused interfaces
+
+// Pure data shape — for storage and API mapping
+export interface IBookData {
+  id: string;
   title: string;
   author: string;
   isbn: string;
   publicationDate: string;
   genre: BookGenre;
-  price?: number;
-  bookAge?: number;
-  getSummary?(): string;
+  price: number;
+}
+
+// Pricing behavior — for discount features
+export interface IDiscountable {
+  getDiscountedPrice(): number;
+  get discountedPrice(): string;
+}
+
+// Time/age behavior — for age calculation
+export interface IAgeable {
+  getBookAge(): number;
+  get bookAge(): number;
+}
+
+// Summary behavior — for display
+export interface ISummarizable {
+  getSummary(): string;
 }
 
 export interface IApiBook {

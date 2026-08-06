@@ -1,14 +1,22 @@
 import { API_URL } from "../main.js";
-import AppDOM from "../services/AppDOM.js";
-import { BaseBook, EBook, PrintedBook } from "../models/book.js";
+import { BaseBook } from "../models/book.js";
 import type { IApiBook, ServerSyncResponse } from "../interfaces/book.interface.js";
+import type { IRenderer } from "../interfaces/IRenderer.js";
+import type { IStatsService } from "../interfaces/IStatsService.js";
 import { LogAction } from "../decorator/logDecorator.js";
+import { BookFactory } from "../factories/BookFactory.js";
 
+// SRP: Responsible for CRUD operations and API sync only
+// DIP: Depends on IRenderer and IStatsService abstractions via constructor injection
 export class BookManager {
   public books: BaseBook[];
+  private renderer: IRenderer;
+  private statsService: IStatsService;
 
-  constructor() {
+  constructor(renderer: IRenderer, statsService: IStatsService) {
     this.books = [];
+    this.renderer = renderer;
+    this.statsService = statsService;
   }
 
   @LogAction
@@ -34,23 +42,14 @@ export class BookManager {
       if (!response.ok) throw new Error(`HTTP Status: ${response.status}`);
 
       const apiData: IApiBook[] = await response.json();
-      this.books = []; // Clear current references
+      this.books = [];
 
-      for (let i = 0; i < apiData.length; i++) {
-        let apiBook: IApiBook = apiData[i]!;
-        const title: string = apiBook.title;
-        const author: string = apiBook.author;
-        const isbn: string = apiBook.isbn || apiBook.ISBN || "";
-        const pubDate: string = apiBook.publicationdate || apiBook.publicationDate || "";
-        const genre: string = apiBook.genre;
-        const bookPrice: number = apiBook.price || Math.floor(Math.random() * 51) + 10;
-
-        let newBook: BaseBook =
-          genre === "Science Fiction" || genre === "Mystery"
-            ? new EBook(title, author, isbn, pubDate, genre, bookPrice, apiBook.fileSizeMB || 3.5)
-            : new PrintedBook(title, author, isbn, pubDate, genre, bookPrice, apiBook.weightInGrams || 500);
+      for (const apiBook of apiData) {
+        // OCP: BookFactory handles book type creation — no hardcoded genre checks here
+        const newBook = BookFactory.create(apiBook);
         this.books.push(newBook);
       }
+
       if (loadingMessage) loadingMessage.style.display = "none";
       this.updateAllStats();
     } catch (error) {
@@ -62,49 +61,9 @@ export class BookManager {
   }
 
   updateAllStats(): void {
-    AppDOM.renderGrid(this.books);
-    const totalEl = document.getElementById("stat-total") as HTMLElement | null;
-
-    if (totalEl) totalEl.textContent = this.books.length.toString();
-
-    this.calculateTopGenre();
-    this.calculateAverageAge();
-  }
-
-  calculateTopGenre(): void {
-    let counts: Record<string, number> = {
-      "Fiction": 0,
-      "Non-Fiction": 0,
-      "Science Fiction": 0,
-      "Mystery": 0,
-    };
-    for (let b of this.books) {
-      const current = counts[b.genre];
-      if (current !== undefined) {
-        counts[b.genre] = current + 1;
-      }
-    }
-    let topGenre: string = "-";
-    let max: number = 0;
-    for (const key of Object.keys(counts)) {
-      const count = counts[key]!;
-      if (count > max) {
-        max = count;
-        topGenre = key;
-      }
-    }
-    const genreEl = document.getElementById("stat-top-genre") as HTMLElement | null;
-    if (genreEl) genreEl.textContent = topGenre;
-  }
-
-  calculateAverageAge(): void {
-    let totalAge: number = 0;
-    for (let b of this.books) {
-      totalAge += b.bookAge;
-    }
-    let avg: number =
-      this.books.length > 0 ? Math.round(totalAge / this.books.length) : 0;
-    const ageEl = document.getElementById("stat-avg-age") as HTMLElement | null;
-    if (ageEl) ageEl.textContent = `${avg} yrs`;
+    // DIP: Calls abstractions — not concrete AppDOM or calculateTopGenre directly
+    this.renderer.render(this.books);
+    this.statsService.updateStats(this.books);
   }
 }
+

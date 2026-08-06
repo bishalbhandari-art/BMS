@@ -1,11 +1,12 @@
-import type { IBook, BookGenre } from "../interfaces/book.interface.js";
+import type { IBookData, IDiscountable, IAgeable, ISummarizable, BookGenre } from "../interfaces/book.interface.js";
 
-export class BaseBook implements IBook {
+// LSP: BaseBook implements all split interfaces so EBook/PrintedBook
+// are always substitutable wherever BaseBook is expected
+export class BaseBook implements IBookData, IDiscountable, IAgeable, ISummarizable {
   public id: string;
   public title: string;
   public author: string;
-  public ISBN: string;
-  public isbn: string;
+  public isbn: string; // LSP fix: single standardized property (no duplicate ISBN)
   public publicationDate: string;
   public genre: BookGenre;
   public price: number;
@@ -13,7 +14,7 @@ export class BaseBook implements IBook {
   constructor(
     title: string,
     author: string,
-    ISBN: string,
+    isbn: string,
     publicationDate: string,
     genre: BookGenre,
     price: number = 20,
@@ -22,36 +23,36 @@ export class BaseBook implements IBook {
     this.id = id || String(Date.now() + Math.random());
     this.title = title;
     this.author = author;
-    this.ISBN = ISBN;
-    this.isbn = ISBN;
+    this.isbn = isbn;
     this.publicationDate = publicationDate;
     this.genre = genre;
     this.price = price;
   }
-  getDiscountedPrice(): number{
+
+  getDiscountedPrice(): number {
     return this.price * 0.9;
-  } 
-  get discountedPrice(): string{
+  }
+
+  get discountedPrice(): string {
     return this.getDiscountedPrice().toFixed(0);
   }
 
   // Dynamic computation of book age
-  getBookAge(): number{
+  getBookAge(): number {
     const pubDate = new Date(this.publicationDate);
     const bookYear = pubDate.getFullYear();
-    if(isNaN(bookYear)){
-    return 0
+    if (isNaN(bookYear)) return 0;
+    const currentYear: number = new Date().getFullYear();
+    return Math.max(0, currentYear - bookYear);
   }
-  const currentYear: number = new Date().getFullYear();
-  return Math.max(0,currentYear-bookYear);
-}
 
-  get bookAge():number{
-  return this.getBookAge();
-}
-getSummary(): string {
-  return `"${this.title}" by ${this.author}`;
-}
+  get bookAge(): number {
+    return this.getBookAge();
+  }
+
+  getSummary(): string {
+    return `"${this.title}" by ${this.author}`;
+  }
 }
 
 export class EBook extends BaseBook {
@@ -60,20 +61,20 @@ export class EBook extends BaseBook {
   constructor(
     title: string,
     author: string,
-    ISBN: string,
+    isbn: string,
     publicationDate: string,
     genre: BookGenre,
     price: number = 20,
     fileSizeMB?: number,
     id?: string
   ) {
-    super(title, author, ISBN, publicationDate, genre, price, id);
+    super(title, author, isbn, publicationDate, genre, price, id);
     if (fileSizeMB !== undefined) {
       this.fileSizeMB = fileSizeMB;
     }
   }
 
-  getFileSizeInMB(): number | undefined{
+  getFileSizeInMB(): number | undefined {
     return this.fileSizeMB;
   }
 }
@@ -84,19 +85,21 @@ export class PrintedBook extends BaseBook {
   constructor(
     title: string,
     author: string,
-    ISBN: string,
+    isbn: string,
     publicationDate: string,
     genre: BookGenre,
     price: number = 20,
     weightInGrams?: number,
     id?: string
   ) {
-    super(title, author, ISBN, publicationDate, genre, price, id);
+    super(title, author, isbn, publicationDate, genre, price, id);
     if (weightInGrams !== undefined) {
       this.weightInGrams = weightInGrams;
     }
   }
+
   getWeightInGrams(): number | undefined {
     return this.weightInGrams;
   }
 }
+
