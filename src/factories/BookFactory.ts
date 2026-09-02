@@ -1,8 +1,9 @@
 import { BaseBook, EBook, PrintedBook } from "../models/book.js";
 import type { IApiBook } from "../interfaces/book.interface.js";
 
-// OCP: Open for extension (add new book types), Closed for modification
-// BookManager and EventController no longer need hardcoded genre checks
+// OCP: Factory for creating book instances based on genre.
+// Creates EBook for Science Fiction/Mystery genres, PrintedBook for all others.
+// Supports creation from both API data (create) and form input (createFromForm).
 export class BookFactory {
   static create(data: IApiBook, id?: string): BaseBook {
     const title = data.title;

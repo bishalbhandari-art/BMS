@@ -183,7 +183,7 @@ GET https://6a460aefa268c8be2ce71a1d.mockapi.io/books/BookAPI
 Features include:
 
 - Fetch all books on `DOMContentLoaded`
-- Dynamic book type creation (`EBook` if `fileSizeMB` present, `PrintedBook` if `weightInGrams` present)
+- Book type selection is genre-based via `BookFactory` (`EBook` for Science Fiction/Mystery; `PrintedBook` otherwise)
 - Server sync simulation (`saveToServer`) with 1200 ms delay and ~90% success rate
 - Error fallback with alert if remote fetch fails
 

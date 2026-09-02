@@ -12,7 +12,15 @@ export default class FormUI {
 
   validate(book: BaseBook): boolean {
     const result = this.validator.validate(book);
-    // Display validation errors in DOM
+
+    // Clear all previous validation error messages before applying current errors
+    const errorFields = ["title", "author", "ISBN", "publicationDate", "genre"];
+    for (const field of errorFields) {
+      const errEl = document.getElementById(`error-${field}`) as HTMLElement | null;
+      if (errEl) errEl.textContent = "";
+    }
+
+    // Display current validation errors in DOM
     for (const [field, msg] of Object.entries(result.errors)) {
       const errEl = document.getElementById(`error-${field}`) as HTMLElement | null;
       if (errEl) errEl.textContent = msg;

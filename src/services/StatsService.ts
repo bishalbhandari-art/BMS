@@ -15,28 +15,21 @@ export class StatsService implements IStatsService {
   }
 
   private calculateTopGenre(books: BaseBook[]): void {
-    const counts: Record<string, number> = {
-      "Fiction": 0,
-      "Non-Fiction": 0,
-      "Science Fiction": 0,
-      "Mystery": 0,
-    };
+    const counts: Record<string, number> = {};
     for (const b of books) {
-      const current = counts[b.genre];
-      if (current !== undefined) {
-        counts[b.genre] = current + 1;
-      }
+      counts[b.genre] = (counts[b.genre] || 0) + 1;
     }
     let topGenre = "-";
     let max = 0;
-    for (const key of Object.keys(counts)) {
-      const count = counts[key]!;
+    for (const [genre, count] of Object.entries(counts)) {
       if (count > max) {
         max = count;
-        topGenre = key;
+        topGenre = genre;
       }
     }
-    const genreEl = document.getElementById("stat-top-genre") as HTMLElement | null;
+    const genreEl = document.getElementById(
+      "stat-top-genre",
+    ) as HTMLElement | null;
     if (genreEl) genreEl.textContent = topGenre;
   }
 

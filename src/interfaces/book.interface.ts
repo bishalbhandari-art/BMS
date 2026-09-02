@@ -1,4 +1,4 @@
-import type { CategoryType } from '../types/bookTypes';
+import type { CategoryType } from "../types/bookTypes.js";
 
 export type BookGenre = CategoryType | string;
 
